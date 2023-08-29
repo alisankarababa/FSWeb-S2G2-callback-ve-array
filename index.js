@@ -182,9 +182,6 @@ function UlkelerinKazanmaSayilari(arrMatches, initialsTeam) {
 console.log("GB1:");
 console.log(UlkelerinKazanmaSayilari(fifaData, "ARG"));
 
-/*  BONUS 2:  
-EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
-
 function getTeamNames(arrMatches) {
   const teamNames = [];
 
@@ -198,6 +195,9 @@ function getTeamNames(arrMatches) {
   teamNames.sort((a, b) => a.localeCompare(b));
   return teamNames;
 }
+
+/*  BONUS 2:  
+EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
 //console.log("Team names");
 //console.log(getTeamNames(fifaData));
@@ -218,17 +218,17 @@ function EnCokGolAtan(arrMatches) {
 
   for (const final of finals) {
     //find home team and increase its total goal
-    teamObjs.find((item) => {
+    const homeTeam = (teamObjs.find((item) => {
       return item.teamName === final["Home Team Name"];
-    }).totalGoal += final["Home Team Goal"];
+    }).totalGoal += final["Home Team Goals"]);
 
     //find away team and increase its total goal
-    teamObjs.find((item) => {
+    const awayTeam = (teamObjs.find((item) => {
       return item.teamName === final["Away Team Name"];
-    }).totalGoal += final["Away Team Goal"];
+    }).totalGoal += final["Away Team Goals"]);
   }
 
-  const maxGoalObj = teamObjs[0];
+  let maxGoalObj = teamObjs[0];
 
   for (const iterator of teamObjs) {
     if (iterator.totalGoal > maxGoalObj.totalGoal) maxGoalObj = iterator;
@@ -258,22 +258,20 @@ function EnKotuDefans(arrMatches) {
 
   for (const final of finals) {
     //find home team and increase its total goal
-    teamObjs.find((item) => {
+    const homeTeam = (teamObjs.find((item) => {
       return item.teamName === final["Home Team Name"];
-    }).totalGoal += final["Away Team Goal"];
+    }).totalGoal += final["Away Team Goals"]);
 
     //find away team and increase its total goal
-    teamObjs.find((item) => {
+    const awayTeam = (teamObjs.find((item) => {
       return item.teamName === final["Away Team Name"];
-    }).totalGoal += final["Home Team Goal"];
+    }).totalGoal += final["Home Team Goals"]);
   }
 
-  const maxGoalObj = teamObjs[0];
+  let maxGoalObj = teamObjs[0];
 
   for (const iterator of teamObjs) {
-    if (iterator.totalGoal > maxGoalObj.totalGoal) {
-      maxGoalObj = iterator;
-    }
+    if (iterator.totalGoal > maxGoalObj.totalGoal) maxGoalObj = iterator;
   }
 
   return maxGoalObj.teamName;
