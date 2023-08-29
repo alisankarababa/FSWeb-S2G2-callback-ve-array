@@ -106,8 +106,8 @@ function YillaraGoreKazananlar(
   cbFinderWinners
 ) {
   const finals = cbFinderFinals(arrMatches);
-  const years = cbFinderYears(finals);
-  const winners = cbFinderWinners(finals);
+  const years = cbFinderYears(finals, cbFinderFinals);
+  const winners = cbFinderWinners(finals, cbFinderFinals);
 
   const retArr = [];
   for (let i = 0; i < finals.length; i++) {
@@ -116,6 +116,8 @@ function YillaraGoreKazananlar(
 
   return retArr;
 }
+// console.log("G5:")
+// console.log(YillaraGoreKazananlar(fifaData, Finaller, Yillar, Kazananlar));
 
 /*  Görev 6: 
 	Bir higher order fonksiyonu olan `OrtalamaGolSayisi` isimli fonksiyona aşağıdakileri uygulayın: 
