@@ -141,19 +141,18 @@ function OrtalamaGolSayisi(arrFinals) {
   return (cntGoals / arrFinals.length).toFixed(2);
 }
 
-function getTeamNameWithInitials(arrMatchObjs, initials) {
-  let isHomeTeam = false;
-  const mathcObj = arrMatchObjs.find((item) => {
-    if (initials === item["Home Team Initials"]) {
-      isHomeTeam = true;
-    }
-
-    return isHomeTeam || initials === item["Away Team Initials"];
-  });
-
-  return isHomeTeam === true
-    ? mathcObj["Home Team Name"]
-    : mathcObj["Away Team Name"];
+function getWinnerInitials(matchObj) {
+  if ("" !== matchObj["Win conditions"]) {
+    const idx = matchObj["Win conditions"].indexOf(" win");
+    return matchObj["Win conditions"].slice(0, idx) ===
+      matchObj["Home Team Name"]
+      ? matchObj["Home Team Initials"]
+      : matchObj["Away Team Initials"];
+  } else if (matchObj["Home Team Goals"] > matchObj["Away Team Goals"]) {
+    return matchObj["Home Team Initials"];
+  } else {
+    return matchObj["Away Team Initials"];
+  }
 }
 
 /// EKSTRA ÇALIŞMALAR ///
@@ -171,10 +170,9 @@ function getTeamNameWithInitials(arrMatchObjs, initials) {
 
 function UlkelerinKazanmaSayilari(arrMatches, initialsTeam) {
   const finals = Finaller(arrMatches);
-  const teamName = getTeamNameWithInitials(arrMatches, initialsTeam);
 
   return finals.reduce((cntWin, match) => {
-    if (getWinnerName(match) === teamName) {
+    if (getWinnerInitials(match) === initialsTeam) {
       cntWin++;
     }
     return cntWin;
